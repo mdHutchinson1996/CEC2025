@@ -1,19 +1,13 @@
 import tkinter as tk
 from tkinter import ttk
-from PIL import Image, ImageTk
 import os
 import csv
-
-current_directory = os.path.dirname(os.path.abspath(__file__))
-parent_directory = os.path.dirname(current_directory)
-
-
 
 class AverageConfidenceApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Average Confidence Values")
-        self.root.geometry("400x200")  # Set the window size to 400x200
+        self.root.geometry("600x200")  # Set the window size to 600x200 to accommodate the labels
 
         # Labels
         self.yes_label = tk.Label(root, text="Yes")
@@ -30,6 +24,20 @@ class AverageConfidenceApp:
         self.no_var = tk.DoubleVar()
         self.no_bar = ttk.Progressbar(root, orient="horizontal", length=300, mode="determinate", variable=self.no_var)
         self.no_bar.grid(row=1, column=1, padx=10, pady=10)
+
+        # Average value labels
+        self.yes_avg_label = tk.Label(root, text="0.0")
+        self.yes_avg_label.grid(row=0, column=2, padx=10, pady=10)
+
+        self.no_avg_label = tk.Label(root, text="0.0")
+        self.no_avg_label.grid(row=1, column=2, padx=10, pady=10)
+
+        # Count labels
+        self.yes_count_label = tk.Label(root, text="Count: 0")
+        self.yes_count_label.grid(row=0, column=3, padx=10, pady=10)
+
+        self.no_count_label = tk.Label(root, text="Count: 0")
+        self.no_count_label.grid(row=1, column=3, padx=10, pady=10)
 
         # Calculate and update average values
         self.update_averages()
@@ -63,7 +71,23 @@ class AverageConfidenceApp:
         self.yes_var.set(yes_average * 100)  # Assuming confidence is a value between 0 and 1
         self.no_var.set(no_average * 100)  # Assuming confidence is a value between 0 and 1
 
+        # Update average value labels
+        self.yes_avg_label.config(text=f"{yes_average:.2f}")
+        self.no_avg_label.config(text=f"{no_average:.2f}")
+
+        # Update count labels
+        if(len(yes_values) > 0):
+            yes_count = len(yes_values)+1
+        else:  
+            yes_count = 0
+        if(len(no_values) > 0):
+            no_count = len(no_values)+1
+        else:  
+            no_count = 0
+        self.yes_count_label.config(text=f"Count: {yes_count}")
+        self.no_count_label.config(text=f"Count: {no_count}")
+
 if __name__ == "__main__":
     root = tk.Tk()
-    app2 = AverageConfidenceApp(root)
+    app = AverageConfidenceApp(root)
     root.mainloop()
