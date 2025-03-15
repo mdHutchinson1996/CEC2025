@@ -1,0 +1,5 @@
+train: C:\Users\laure\OneDrive\Documents\CEC_2025\CEC_2025\train
+val: C:\Users\laure\OneDrive\Documents\CEC_2025\CEC_2025\val
+
+nc: 2
+names: ['yes', 'no']
